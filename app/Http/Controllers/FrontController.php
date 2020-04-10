@@ -46,9 +46,10 @@ class FrontController extends Controller
         // $books = Author::find($id)->books // on récupère tous les livres d'un auteur
 
         // on récupère tous les livres d'un auteur avec la pagination
-        $books = Author::find($id)->books()->paginate( $this->paginateAuthor );
+        $author = Author::find($id) ;
+        $books = $author->books()->paginate( $this->paginateAuthor );
 
-        return view('front.author', ['books' => $books]);
+        return view('front.author', ['books' => $books, 'name' => $author->name]);
     }
 
     public function showGenre(int $id){

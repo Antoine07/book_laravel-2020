@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('book/{id}', 'FrontController@show')->name('show_book');
 Route::get('author/{id}', 'FrontController@showAuthor')->name('show_book_author');
 
+// $_GET['id']
 Route::get('genre/{id}', 'FrontController@showGenre')->name('show_book_genre');
 
 

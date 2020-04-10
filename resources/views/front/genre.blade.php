@@ -8,7 +8,7 @@ Page des books
 
 {{-- pagination de Laravel --}}
 {{ $books->links() }}
-<h1>Tous les livres du genre {{ $name }}</h1>
+<h1>Tous les livres du genre {{ $name ?? 'Pas de nom' }}</h1>
 <ul class="list-group">
 @forelse($books as $book)
     <li class="list-group-item">
