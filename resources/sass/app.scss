@@ -1,17 +1,8 @@
-//
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
-@import "variables";
+@import 'variables';
 
 // Bootstrap
-@import "~bootstrap/scss/bootstrap";
-
-/*
-
-npm install
-
-npm install bootstrap --save
-
-*/
+@import '~bootstrap/scss/bootstrap';

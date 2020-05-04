@@ -14,15 +14,20 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         
         DB::table('users')->insert([
+            // [
+            //     'name' => 'Alan',
+            //     'email' => 'alan@alan.fr',
+            //     'password' => '1234'
+            // ],
+            // [
+            //     'name' => 'Alice',
+            //     'email' => 'alice@alice.fr',
+            //     'password' => '1234'
+            // ],
             [
-                'name' => 'Alan',
-                'email' => 'alan@alan.fr',
-                'password' => '1234'
-            ],
-            [
-                'name' => 'Alice',
-                'email' => 'alice@alice.fr',
-                'password' => '1234'
+                'name' => 'admin',
+                'email' => 'admin@admin.fr',
+                'password' => Hash::make( 'admin' )
             ],
             ]);
             
