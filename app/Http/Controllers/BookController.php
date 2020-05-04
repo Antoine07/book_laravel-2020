@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Genre;
+use App\Book;
 
 class BookController extends Controller
 {
 
+    private $paginate = 5;
+    
     public function __construct(){
         view()->composer('partials.menu', function($view){
             $genres = Genre::pluck('name', 'id');
@@ -23,8 +26,9 @@ class BookController extends Controller
      */
     public function index()
     {
+        $books = Book::paginate($this->paginate);
         
-        return view('back.book.index');
+        return view('back.book.index', ['books' => $books]);
     }
 
     /**
