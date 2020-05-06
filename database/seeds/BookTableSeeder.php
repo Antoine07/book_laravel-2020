@@ -23,7 +23,7 @@ class BookTableSeeder extends Seeder
         // Supprimer toutes les images si elles existent dans le dossier images
         Storage::disk('local')->delete( Storage::allFiles() );
 
-        factory(App\Book::class, 10)->create()->each(function($book){
+        factory(App\Book::class, 2)->create()->each(function($book){
 
             // Un objet hydraté par une ligne de la table books
             // dump($book->title);

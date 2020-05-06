@@ -1,15 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-{{-- classe Session de Laravel elle permet de récupérer un message dans une variable de session (flash message) --}}
-@if(Session::has('message'))
-<div class="alert">
-    <p>{{ Session::get('message') }}</p>
-</div>
-@endif
+
 <p><a href="{{route('book.create')}}"><button type="button" class="btn btn-primary btn-lg">Ajouter un livre</button></a></p>
 {{$books->links()}}
 {{-- On inclut le fichier des messages retournés par les actions du contrôleurs BookController--}}
+@include('back.partials.flash')
 <table class="table table-striped">
     <thead>
         <tr>
@@ -71,4 +67,7 @@
 
 @section('scripts')
 @parent
+<script>
+    // travailler sur le DOM pour gérer l'affichage des messages ...
+</script>
 @endsection

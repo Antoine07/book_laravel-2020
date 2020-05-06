@@ -96,7 +96,11 @@ class BookController extends Controller
             ]);
         }
 
-        return redirect()->route('book.index')->with('message', 'success creater book');
+        // with permet de créer un flash message enregistrer dans la classe Session clé/valeur :
+        return redirect()->route('book.index')->with('message', [
+            'type' => 'alert-success', 
+            'content' => 'success create book'
+        ]);
     }
 
     /**
@@ -157,7 +161,10 @@ class BookController extends Controller
         // la méthode sync met à jour la table de liaison avec les auteurs
         $book->authors()->sync($request->authors);
 
-        return redirect()->route('book.index')->with('message', 'success update');
+        return redirect()->route('book.index')->with('message', [
+            'type' => 'alert-success', 
+            'content' => 'success update book'
+        ]);
     }
 
     /**
@@ -166,15 +173,24 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        // dump($id, 'destroy');
 
-        $book = Book::find($id);
+        if( $book->picture ){
+            // on supprime physiquement l'image
+            Storage::disk('local')->delete( $book->picture->link );
+
+            // puis l'information dans la table
+            $book->picture()->delete();
+
+        }
 
         $book->delete();
 
-        return redirect()->route('book.index')->with('message', 'success delete');
+        return redirect()->route('book.index')->with('message', [
+            'type' => 'alert-success', 
+            'content' => 'success delete book'
+        ]);
     }
 
     
