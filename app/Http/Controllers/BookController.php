@@ -44,8 +44,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        $authors = Author::pluck('name', 'id')->all();
-        $genres = Genre::pluck('name', 'id')->all(); // ['id' => 'name']
+        $authors = Author::pluck('name', 'id');
+        $genres = Genre::pluck('name', 'id'); // ['id' => 'name']
 
         return view('back.book.create', [
             'authors' => $authors,
@@ -63,9 +63,14 @@ class BookController extends Controller
     {
         // dump($request->all()); die;
 
+        // pour les validations vous avez les rules
         $request->validate([
-            'title' => ['required'],
-
+            'title' => 'required',
+            'description' => 'required',
+            'genre_id' => 'integer',
+            'authors.*' => 'integer',
+            'status' => 'in:published,unpublished',
+            'score' => 'required|between:0,10' // plusieurs rules pour vérifier les champs d'un formulaire
         ]);
 
         // insert les données en base il faut préciser cela dans les fillables
@@ -90,13 +95,24 @@ class BookController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * 
+     * l'injection de dépandance Laravel instancie le livre avec l'id si 
+     * vous préciser le type Book dans le paramètre de la méthode
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Book $book)
     {
-        //
+        
+        $authors = Author::pluck('name', 'id');
+        $genres = Genre::pluck('name', 'id'); // ['id' => 'name']
+
+        return view('back.book.edit', [
+            'book' => $book,
+            'authors' => $authors,
+            'genres' => $genres
+        ]);
     }
 
     /**
@@ -106,9 +122,25 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Book $book)
     {
-        //
+        // $book = Book::find($id);
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'genre_id' => 'integer',
+            'authors.*' => 'integer',
+            'status' => 'in:published,unpublished',
+            'score' => 'required|between:0,10' // plusieurs rules pour vérifier les champs d'un formulaire
+        ]);
+
+        $book->update($request->all());
+
+        // la méthode sync met à jour la table de liaison avec les auteurs
+        $book->authors()->sync($request->authors);
+
+        return redirect()->route('book.index')->with('message', 'success update');
     }
 
     /**
