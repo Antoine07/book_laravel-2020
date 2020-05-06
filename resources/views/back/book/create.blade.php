@@ -64,6 +64,14 @@
                     </select>
                 </div>
             </div>
+            <div class="form">
+                <div class="form-group">
+                   <h2>Fichier</h2>
+                   <label for="file">Image</label>
+                   <input type="file" name="picture">
+                   @if($errors->has('picture')) <span class="error bg-warning">{{ $errors->first('picture')}}</span> @endif
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Ajouter un livre</button>
         </div>
     </div>

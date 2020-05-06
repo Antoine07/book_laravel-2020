@@ -73,6 +73,15 @@ class BookController extends Controller
             'score' => 'required|between:0,10' // plusieurs rules pour vérifier les champs d'un formulaire
         ]);
 
+
+        if($request->file('picture')){
+
+            dump($request->file('picture') );
+            die;
+        }
+
+        die('ici');
+
         // insert les données en base il faut préciser cela dans les fillables
         $book = Book::create($request->all());
         // une fois le book créé en base de données Laravel crée un objet book
