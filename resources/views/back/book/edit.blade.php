@@ -72,6 +72,24 @@
                     </select>
                 </div>
             </div>
+            <div class="form">
+                <div class="form-group">
+                    <h2>Fichier</h2>
+                    <label for="file">Image</label>
+                    <input type="file" name="picture">
+                    @if($errors->has('picture')) <span class="error bg-warning">{{ $errors->first('picture')}}</span> @endif
+                </div>
+            </div>
+            @if($book->picture)
+            <div class="form">
+                <div class="form-group">
+                    <img width="300" src="{{ asset('images/' . $book->picture->link ) }}" />
+                    <p class="delete_picture">
+                        Cocher pour supprimer l'image :<input type="checkbox" name="delete_picture" value="delete_picture" />
+                    </p>
+                </div>
+            </div>
+            @endif
             <button type="submit" class="btn btn-primary">Mettre à jour</button>
         </div>
     </div>
