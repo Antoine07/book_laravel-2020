@@ -74,19 +74,27 @@ class BookController extends Controller
         ]);
 
 
-        if($request->file('picture')){
-
-            dump($request->file('picture') );
-            die;
-        }
-
-        die('ici');
-
         // insert les données en base il faut préciser cela dans les fillables
         $book = Book::create($request->all());
         // une fois le book créé en base de données Laravel crée un objet book
         // la méthode authors()->attach permet d'associer dans la relation many to many des auteurs pour ce livre
         $book->authors()->attach($request->authors);
+
+        if( $request->file('picture') ){
+
+            // enregistre dans le store l'image et en même temps on récupère le
+            // nom de l'image créé par Laravel, nom sécurisé
+            // 1. Pas d'écrasement d'image avec le même nom.
+            // 2. Pas d'injection de script dans le nom de l'image.
+            $link= $request->file('picture')->store('') ;
+
+            // créer une resource dans la table pictures
+
+            $book->picture()->create([
+                'link' => $link,
+                'title' => ''
+            ]);
+        }
 
         return redirect()->route('book.index')->with('message', 'success creater book');
     }
