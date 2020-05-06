@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
+
+    protected $fillable = [ 
+        'title', 
+        'description', 
+        'genre_id', 
+        'status', 
+        'score'
+    ];
     
     // One to Many inverse
     // Un livre a un genre au plus

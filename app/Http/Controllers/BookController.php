@@ -6,18 +6,23 @@ use Illuminate\Http\Request;
 
 use App\Genre;
 use App\Book;
+use App\Author;
+
+use Storage;
 
 class BookController extends Controller
 {
 
     private $paginate = 5;
-    
-    public function __construct(){
-        view()->composer('partials.menu', function($view){
+
+    public function __construct()
+    {
+
+        // On remet ici les genres pour le menu dans le master.blade.php (layout)
+        view()->composer('partials.menu', function ($view) {
             $genres = Genre::pluck('name', 'id');
             $view->with('genres', $genres);
         });
-
     }
     /**
      * Display a listing of the resource.
@@ -27,7 +32,8 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::paginate($this->paginate);
-        
+
+        // back.book.inde <=> back/book/index.blade.php dans Laravel
         return view('back.book.index', ['books' => $books]);
     }
 
@@ -38,7 +44,13 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $authors = Author::pluck('name', 'id')->all();
+        $genres = Genre::pluck('name', 'id')->all(); // ['id' => 'name']
+
+        return view('back.book.create', [
+            'authors' => $authors,
+            'genres' => $genres
+        ]);
     }
 
     /**
@@ -49,7 +61,20 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dump($request->all()); die;
+
+        $request->validate([
+            'title' => ['required'],
+
+        ]);
+
+        // insert les données en base il faut préciser cela dans les fillables
+        $book = Book::create($request->all());
+        // une fois le book créé en base de données Laravel crée un objet book
+        // la méthode authors()->attach permet d'associer dans la relation many to many des auteurs pour ce livre
+        $book->authors()->attach($request->authors);
+
+        return redirect()->route('book.index')->with('message', 'success creater book');
     }
 
     /**
@@ -94,6 +119,14 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // dump($id, 'destroy');
+
+        $book = Book::find($id);
+
+        $book->delete();
+
+        return redirect()->route('book.index')->with('message', 'success delete');
     }
+
+    
 }

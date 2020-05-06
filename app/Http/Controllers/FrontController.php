@@ -17,7 +17,9 @@ class FrontController extends Controller
 
     public function __construct(){
         view()->composer('partials.menu', function($view){
-            $genres = Genre::pluck('name', 'id');
+            // Genre::pluck => fait une instance de Genre et appel sur l'objet créé la méthode pluck
+            // les :: sont un pattern dans Laravel technique pour l'instant ne chercher pas à comprendre ce pattern Facade
+            $genres = Genre::pluck('name', 'id'); // [ ['id' => 1], ['id' => 2], ['id' => 3] ]
             $view->with('genres', $genres);
         });
 

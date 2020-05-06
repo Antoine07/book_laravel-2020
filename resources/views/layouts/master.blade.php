@@ -11,7 +11,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-           @include('partials.menu')
+        {{-- une vue partielle pour inclure le menu principal --}}
+        @include('partials.menu')
         </div>
     </div>
     <div class="row">

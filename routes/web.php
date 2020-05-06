@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // des URI book/1, book/2 le paramètre {id} est paramètre variable
 // récupérer par la méthode show
-Route::get('book/{id}', 'FrontController@show')->name('show_book');
+Route::get('show/{id}', 'FrontController@show')->name('show_book');
 Route::get('author/{id}', 'FrontController@showAuthor')->name('show_book_author');
 
 // $_GET['id']

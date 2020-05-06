@@ -8,8 +8,16 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('home')}}">Home <span class="sr-only">(current)</span></a>
             </li>
+            {{-- Il faudra penser à injecter les genres pour pouvoir les afficher dans la vue partielle --}}
             @foreach($genres as $id => $name)
-            <li class="{{ request()->id == $id ? 'active' : '' }} nav-item"><a class="nav-link" href="{{route('show_book_genre', $id)}}">{{ $name }}</a></li>
+
+            {{-- 
+            request() une fonction de Laravel permettant de récupérer la request HTTP avec ses différents paramètres
+            par exemple request()->id tu récupères dans la chaîne http://localhost:8000/genre/7  id=7 la valeur 7 voir 
+            la politique défini dans le fichier web.php (router) genre/{id} noté bien la valeur id qui correspond au nom de la
+            variable dans la chaîne url.
+             --}}
+            <li class="{{ request()->id == $id ? 'active' : '' }} nav-item"><a class="nav-link" href="{{route('show_book_genre', $id)}}">id : {{ request()->id }} {{ $name }}</a></li>
             @endforeach
         </ul>
         <ul class="nav navbar-nav navbar-right">
