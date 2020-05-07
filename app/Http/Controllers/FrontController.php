@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Book;
 use App\Author;
 use App\Genre;
+use Cache;
 
 class FrontController extends Controller
 {
@@ -15,18 +16,17 @@ class FrontController extends Controller
     private $paginate = 5;
     private $paginateAuthor = 2;
 
-    public function __construct(){
-        view()->composer('partials.menu', function($view){
-            // Genre::pluck => fait une instance de Genre et appel sur l'objet créé la méthode pluck
-            // les :: sont un pattern dans Laravel technique pour l'instant ne chercher pas à comprendre ce pattern Facade
-            $genres = Genre::pluck('name', 'id'); // [ ['id' => 1], ['id' => 2], ['id' => 3] ]
-            $view->with('genres', $genres);
-        });
-
-    }
-
     public function index(){
-        $books = Book::paginate($this->paginate);
+
+        $key = 'home' . ( request()->page ?? '1' );
+        $minutes = 60;
+
+        // pour nettoyer le cache on a la commande
+        // php artisan cache:clear
+        $books = Cache::remember( $key , $minutes, function(){
+
+            return Book::with('picture', 'genre')->paginate($this->paginate);
+        });
 
         // Le premier paramètre c'est le nom de votre vue
         // le point désigne le fait que vous allez chercher un fichier se trouvant dans un dossier
@@ -36,7 +36,7 @@ class FrontController extends Controller
     // int permet de vérifier le type du paramètre de ma fonction
     // le paramètre $id est récupéré dans la route
     public function show(int $id){
-        $book = Book::find($id);
+        $book = Book::with('authors')->find($id);
 
         return view('front.show', ['book' => $book]);
     }
@@ -49,7 +49,7 @@ class FrontController extends Controller
 
         // on récupère tous les livres d'un auteur avec la pagination
         $author = Author::find($id) ;
-        $books = $author->books()->paginate( $this->paginateAuthor );
+        $books = $author->books()->with('picture')->paginate( $this->paginateAuthor );
 
         return view('front.author', ['books' => $books, 'name' => $author->name]);
     }
@@ -58,7 +58,7 @@ class FrontController extends Controller
 
         $genre = Genre::find($id);
 
-        $books = $genre->books()->paginate($this->paginate);
+        $books = $genre->books()->with('picture')->paginate($this->paginate);
 
         return view('front.genre', [
             'books' => $books,

@@ -15,15 +15,6 @@ class BookController extends Controller
 
     private $paginate = 5;
 
-    public function __construct()
-    {
-
-        // On remet ici les genres pour le menu dans le master.blade.php (layout)
-        view()->composer('partials.menu', function ($view) {
-            $genres = Genre::pluck('name', 'id');
-            $view->with('genres', $genres);
-        });
-    }
     /**
      * Display a listing of the resource.
      *
@@ -33,6 +24,7 @@ class BookController extends Controller
     {
         $books = Book::paginate($this->paginate);
 
+        
         // back.book.inde <=> back/book/index.blade.php dans Laravel
         return view('back.book.index', ['books' => $books]);
     }
