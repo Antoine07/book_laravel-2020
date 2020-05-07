@@ -9,12 +9,17 @@ Page des books
 {{-- pagination de Laravel --}}
 {{ $books->links() }}
 <h1>Tous les livres</h1>
+<p>Moyenne générale des notes des livres : {{ $stat->avgGeneral() }}</p>
+<p>Ecart type {{ $stat->std() }}</p>
 <ul class="list-group">
 @forelse($books as $book)
     <li class="list-group-item">
         <h2><a href="{{ route('show_book', $book->id) }}">{{ $book->title }}</a></h2>
         @if( is_null($book->score) == false)
         <p>Score : {{ $book->score}}</p>
+        <p>Moyenne : {{ $stat->avg ( $book->id ) }}</p>
+        <p>Ecart type : {{ $stat->std ( $book->id ) }}</p>
+
         @endif
         @if( is_null($book->picture) == false)
         <div class="row">
@@ -26,7 +31,6 @@ Page des books
         </div>
         @endif
 
-        {{ dump(  $stat->avg($book->id)  )}}
     </li>
 @empty
 @endforelse

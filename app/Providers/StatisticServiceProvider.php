@@ -18,10 +18,7 @@ class StatisticServiceProvider extends ServiceProvider
         // enregistrer le service dans un conteneur de service 
         // une instance unique de votre service utilisable dans votre application
         $this->app->singleton( 'App\Services\Stat', function ($app) {
-
             $precision = $app['config']['statistic']['precision'];
-
-            dump('ici je suis dans le service', $precision);
 
             return new Stat( $precision );
         });
