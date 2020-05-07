@@ -10,13 +10,15 @@ use App\Author;
 use App\Genre;
 use Cache;
 
+use App\Services\Stat;
+
 class FrontController extends Controller
 {
 
     private $paginate = 5;
     private $paginateAuthor = 2;
 
-    public function index(){
+    public function index(Stat $stat){
 
         $key = 'home' . ( request()->page ?? '1' );
         $minutes = 5 * 60;
@@ -28,9 +30,14 @@ class FrontController extends Controller
             return Book::with('picture', 'genre')->paginate($this->paginate);
         });
 
+        // beaucoup de code ici ... Algorithme il faut mettre l'algorithme dans un service
+
         // Le premier paramètre c'est le nom de votre vue
         // le point désigne le fait que vous allez chercher un fichier se trouvant dans un dossier
-        return view('front.index', ['books' => $books]);
+        return view('front.index', [
+            'books' => $books,
+            'stat' => $stat
+            ]);
     }
 
     // int permet de vérifier le type du paramètre de ma fonction

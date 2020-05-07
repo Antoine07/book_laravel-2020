@@ -175,7 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         
-        App\Providers\ComposerViewServiceProvider::class
+        App\Providers\ComposerViewServiceProvider::class,
+        App\Providers\StatisticServiceProvider::class,
     ],
 
     /*
