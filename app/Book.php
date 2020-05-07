@@ -42,6 +42,6 @@ class Book extends Model
     // One to One
     public function statistic()
     {
-        return $this->hasOne(Statistic::class);
+        return $this->hasMany(Statistic::class);
     }
 }

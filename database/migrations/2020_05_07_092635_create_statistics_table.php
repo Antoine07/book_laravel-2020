@@ -16,7 +16,7 @@ class CreateStatisticsTable extends Migration
         Schema::create('statistics', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->decimal('avg', 3, 1);
+            $table->decimal('note', 3, 1); // plusieurs notes pour un même livre
             $table->dateTime('published_at')->nullable();
             $table->foreignId('book_id')
                 ->constrained()

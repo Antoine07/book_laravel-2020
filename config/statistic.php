@@ -2,5 +2,5 @@
 
 return [
 
-    'precision' => 2
+    'precision' => 1
 ];

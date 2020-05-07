@@ -17,10 +17,19 @@ class Stat
         dump("hello service stat");
     }
 
-    public function avg($bookId){
+    // todo cette méthode doit retourner la moyenne des notes d'un livre
+    public function avg(int $bookId){
 
-        $avg = Statistic::where('book_id', $bookId)->pluck('avg', 'book_id');
+        $avg = Statistic::where('book_id', $bookId)->pluck('note', 'book_id');
 
         return $avg;
     }
+
+    // Cette méthode retourne l'écart type des notes d'un livre
+    public function std(int $bookId){
+
+    }
+
+    // méthode permettant de calculer la moyenne générale des notes de tous les livres
+    public function avgGeneral(){ }
 }

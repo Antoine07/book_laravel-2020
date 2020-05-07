@@ -57,9 +57,23 @@ class BookTableSeeder extends Seeder
                 'link' => $link
             ]);
 
-            $book->statistic()->create([
-                'avg' => rand(5, 20),
-                'title' => $book->title
+            $book->statistic()->createMany([
+                [
+                    'note' => rand(5, 20),
+                    'title' => $book->title
+                ],
+                [
+                    'note' => rand(5, 20),
+                    'title' => $book->title
+                ], 
+                [
+                    'note' => rand(5, 20),
+                    'title' => $book->title
+                ],
+                [
+                    'note' => rand(5, 20),
+                    'title' => $book->title
+                ],
             ]);
 
             /*

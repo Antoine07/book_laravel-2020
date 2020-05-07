@@ -18,6 +18,8 @@ class FrontController extends Controller
     private $paginate = 5;
     private $paginateAuthor = 2;
 
+    // Stat est un service enregistrer avec le service provider dans le container de service
+    // de Laravel
     public function index(Stat $stat){
 
         $key = 'home' . ( request()->page ?? '1' );
@@ -36,7 +38,7 @@ class FrontController extends Controller
         // le point désigne le fait que vous allez chercher un fichier se trouvant dans un dossier
         return view('front.index', [
             'books' => $books,
-            'stat' => $stat
+            'stat' => $stat // service Stat
             ]);
     }
 

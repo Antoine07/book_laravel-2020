@@ -26,7 +26,7 @@ Page des books
         </div>
         @endif
 
-        {{ dump($stat->avg($book->id))}}
+        {{ dump(  $stat->avg($book->id)  )}}
     </li>
 @empty
 @endforelse
