@@ -59,7 +59,32 @@ class Stat
     }
 
     // todo max et min des notes de tous les livres
-    public function maxNotes(){}
-    public function minNotes(){}
+    public function maxGen(){
+        $notes = Statistic::pluck('note');
+
+        if ($notes)
+            return $notes->max();
+    }
+
+    public function minGen(){
+        $notes = Statistic::pluck('note');
+
+        if ($notes)
+            return $notes->min();
+    }
+
+    public function maxNoteBook(int $bookId){
+        $notes = Statistic::where('book_id', $bookId)->pluck('note'); // Collection Laravel
+
+        if ($notes)
+            return $notes->max();
+    }
+
+    public function minNoteBook(int $bookId){
+        $notes = Statistic::where('book_id', $bookId)->pluck('note'); // Collection Laravel
+
+        if ($notes)
+            return $notes->min();
+    }
 
 }

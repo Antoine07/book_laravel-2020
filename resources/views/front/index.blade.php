@@ -11,6 +11,8 @@ Page des books
 <h1>Tous les livres</h1>
 <p>Moyenne générale des notes des livres : {{ $stat->avgGeneral() }}</p>
 <p>Ecart type {{ $stat->std() }}</p>
+<p>Max note {{ $stat->maxGen() }}</p>
+<p>Min note {{ $stat->minGen() }}</p>
 <ul class="list-group">
 @forelse($books as $book)
     <li class="list-group-item">
@@ -18,8 +20,8 @@ Page des books
         @if( is_null($book->score) == false)
         <p>Score : {{ $book->score}}</p>
         <p>Moyenne : {{ $stat->avg ( $book->id ) }}</p>
-        <p>Ecart type : {{ $stat->std ( $book->id ) }}</p>
-
+        <p>Max : {{ $stat->maxNoteBook( $book->id ) }}</p>
+        <p>Min : {{ $stat->minNoteBook( $book->id ) }}</p>
         @endif
         @if( is_null($book->picture) == false)
         <div class="row">
