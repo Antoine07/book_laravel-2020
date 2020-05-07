@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Genre;
 use App\Book;
 use App\Author;
-
+use Cache;
 use Storage;
 
 class BookController extends Controller
@@ -24,7 +24,7 @@ class BookController extends Controller
     {
         $books = Book::paginate($this->paginate);
 
-        
+
         // back.book.inde <=> back/book/index.blade.php dans Laravel
         return view('back.book.index', ['books' => $books]);
     }
@@ -88,6 +88,8 @@ class BookController extends Controller
                 'title' => ''
             ]);
         }
+
+        Cache::flush();
 
         // with permet de créer un flash message enregistrer dans la classe Session clé/valeur :
         return redirect()->route('book.index')->with('message', [
@@ -164,6 +166,8 @@ class BookController extends Controller
             $this->uploadPicture($book, $request);
         }
 
+        Cache::flush();
+
         return redirect()->route('book.index')->with('message', [
             'type' => 'alert-success',
             'content' => 'success update book'
@@ -188,6 +192,8 @@ class BookController extends Controller
         }
 
         $book->delete();
+
+        Cache::flush();
 
         return redirect()->route('book.index')->with('message', [
             'type' => 'alert-success',

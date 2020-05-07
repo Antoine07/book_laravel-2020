@@ -19,7 +19,7 @@ class FrontController extends Controller
     public function index(){
 
         $key = 'home' . ( request()->page ?? '1' );
-        $minutes = 60;
+        $minutes = 5 * 60;
 
         // pour nettoyer le cache on a la commande
         // php artisan cache:clear
