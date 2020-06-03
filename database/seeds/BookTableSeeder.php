@@ -23,15 +23,21 @@ class BookTableSeeder extends Seeder
         // Supprimer toutes les images si elles existent dans le dossier images
         Storage::disk('local')->delete(Storage::allFiles());
 
+
+        $files = Storage::disk('faker_images')->files('femmes');
+
+        dump($files);
+
         factory(App\Book::class, 10)->create()->each(function ($book) {
 
             // Un objet hydraté par une ligne de la table books
             // dump($book->title);
             $names = ['science', 'maths', 'cookbook'];
-            // attention le where un retourne un tableau et nous on veut un objet
-            // donc on utilise first qui récupère le premier objet du tableau
+            // // attention le where un retourne un tableau et nous on veut un objet
+            // // donc on utilise first qui récupère le premier objet du tableau
             $genre = App\Genre::where('name', $names[rand(0, 2)])->first();
-
+            $genreId = App\Genre::pluck('id')->shuffle()->slice(0, 1)->all(); // array
+            $genre = App\Genre::find($genreId[0]);
             // On demande au modèle de se mettre en relation avec le modèle Genre
             // Puis on associe un genre à book
             $book->genre()->associate($genre);
